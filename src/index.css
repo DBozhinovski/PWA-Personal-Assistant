@@ -26,6 +26,7 @@ html, body {
   padding: 10px;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 }
 
 .chat-input, .chat-input form {

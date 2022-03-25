@@ -8,6 +8,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@nlpjs/core": "^4.22.7",
+    "@nlpjs/lang-en-min": "^4.22.7",
+    "@nlpjs/nlp": "^4.23.2",
     "preact": "^10.5.15"
   },
   "devDependencies": {

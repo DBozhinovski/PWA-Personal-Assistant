@@ -6,8 +6,12 @@ import { ChatInput } from './ChatInput';
 
 import { getReply, greet } from './bot';
 
+// Read messages from storage if any
+const messagesFromStorage = JSON.parse(localStorage.getItem('messageHistory') || '[]');
+
 const initialState = {
-	messages: [],
+	// messages: [],
+	messages: messagesFromStorage,
 }
 
 // Message contents and owner, so we can differentiate those messages and style them accordingly 
@@ -31,6 +35,7 @@ interface ReducerAction {
 const reducer = (state: ReducerState, action: ReducerAction) => {
 	switch (action.type) {
 		case 'addMessage': {
+			localStorage.setItem('messageHistory', JSON.stringify([...state.messages, action.payload.message]))
 			return { messages: [...state.messages, action.payload.message] };
 		}
 		default: {

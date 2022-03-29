@@ -1,11 +1,15 @@
+interface Data {
+  [key: string]: any
+}
+
 export const data = {
   'greetings.known': {
     documents: [
       '__system.hello.known__'
     ],
     answers: [
-      'Hi {{ name }}! How can I help you?',
-      'Good to see you again {{ name }}. What can I do for you?'
+      (data: Data) => `Hi ${data.name}! How can I help you?'`,
+      (data: Data) => `Good to see you again ${data.name}! What can I do for you?'`,
     ]
   },
   'greetings.unknown': {
@@ -25,8 +29,8 @@ export const data = {
       'Call me #Name'
     ],
     answers: [
-      'Good to meet you {{ name }}!',
-      'Nice meeting you {{ name }}!',
+      (data: Data) => `Good to meet you ${data.name}! Can I help you with something?'`,
+      (data: Data) => `Nice meeting you ${data.name}! How can I help you?'`,
     ]
   }
 }

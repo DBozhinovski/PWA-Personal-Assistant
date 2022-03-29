@@ -7,20 +7,21 @@ interface Bot {
 }
 
 let bot: Bot;
+let data: { [key: string]: any } = {};
+
 (async () => {
   bot = await initBot();
-})()
-
-let data: { [key: string]: any } = {};
-const stored = localStorage.getItem('userData');
-
-if (stored) {
-  try {
-    data = JSON.parse(stored);
-  } catch (e) {
-    console.error(e);
+  
+  const stored = localStorage.getItem('userData');
+  
+  if (stored) {
+    try {
+      data = JSON.parse(stored);
+    } catch (e) {
+      console.error(e);
+    }
   }
-}
+})()
 
 export const greet = async () => {
   // if (data.name) {
@@ -28,14 +29,17 @@ export const greet = async () => {
   // } else {
   //   return `Hello. I'm not sure we've met before. How should I call you?`;
   // }
-  let res = {
-    answer: '',
-  };
+  let res = null;
 
   if (data.name) {
-    res = await bot.nlp.process('en', '__system.hello.known__', data);
+    res = await bot.nlp.process('en', '__system.hello.known__');
   } else {
     res = await bot.nlp.process('en', '__system.hello.unknown__');
+  }
+
+  // Response can either be a plain string or a template literal
+  if (typeof res.answer === 'function') {
+    return res.answer(data);
   }
 
   return res.answer;
@@ -43,10 +47,19 @@ export const greet = async () => {
 
 export const getReply = async (message: string) => {
   // return message;
-  const res = await bot.nlp.process('en', message, data);
+  const res = await bot.nlp.process('en', message);
   const analysis = bot.compromise(message);
-  console.log(res, analysis);
-  const processed = skills.forEach(s => s(res, analysis));
-  console.log(processed);
+  // Run each skill over input
+  skills.forEach(s => s(res, analysis, data));
+
+  // Store data for next boot
+  console.log(data);
+  localStorage.setItem('userData', JSON.stringify(data));
+
+  // Response can either be a plain string or a template literal
+  if (typeof res.answer === 'function') {
+    return res.answer(data);
+  }
+
   return res.answer;
 }

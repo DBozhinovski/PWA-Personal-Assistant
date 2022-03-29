@@ -1,10 +1,10 @@
-import { useState, useReducer } from 'preact/hooks';
+import { useState, useReducer, useEffect } from 'preact/hooks';
 
 import ReloadPrompt from './ReloadPrompt';
 import { ChatHistory } from './ChatHistory';
 import { ChatInput } from './ChatInput';
 
-import { getReply } from './bot';
+import { getReply, greet } from './bot';
 
 const initialState = {
 	messages: [],
@@ -44,6 +44,14 @@ export function App() {
   const [message, setMessage] = useState<string>('');
 	const [state, dispatch] = useReducer(reducer, initialState);
 
+	useEffect(() => {
+		(async () => {
+			const reply = await greet();
+			// console.log(reply);
+			dispatch({ type: 'addMessage', payload: { message: { message: reply, owner: 'bot'} } });
+		})()
+	}, []);
+
 	return (
 		<div className="chat-root">
       <ReloadPrompt />
@@ -52,8 +60,8 @@ export function App() {
 
       <ChatInput onChange={(val) => { setMessage(val) }} onSubmit={() => { 
 				dispatch({ type: 'addMessage', payload: { message: { message, owner: 'me'} } }); // Add message to state
-				setTimeout(() => {
-					const reply = getReply(message);
+				setTimeout(async () => {
+					const reply = await getReply(message);
 					dispatch({ type: 'addMessage', payload: { message: { message: reply, owner: 'bot'} } });
 				}, 1000);
 				setMessage(''); // Reset message, so we can input a new one

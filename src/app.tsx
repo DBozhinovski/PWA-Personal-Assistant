@@ -39,7 +39,7 @@ const reducer = (state: ReducerState, action: ReducerAction) => {
 			return { messages: [...state.messages, action.payload.message] };
 		}
 		default: {
-			console.error("I’m sorry, Dave. I’m afraid I can’t do that.");
+			console.error("I\'m sorry, Dave. I\'m afraid I can\'t do that.");
 			return state;
 		}
 	}

@@ -49,11 +49,13 @@ export const getReply = async (message: string) => {
   // return message;
   const res = await bot.nlp.process('en', message);
   const analysis = bot.compromise(message);
+
+  console.log(res.intent);
+
   // Run each skill over input
   skills.forEach(s => s(res, analysis, data));
 
   // Store data for next boot
-  console.log(data);
   localStorage.setItem('userData', JSON.stringify(data));
 
   // Response can either be a plain string or a template literal

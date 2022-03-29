@@ -67,6 +67,7 @@ export const data: TrainingData = {
     ]
   },
   'joke': {
+    description: 'I can tell you a joke - type: "Tell me a joke"',
     documents: [
       'tell me a joke',
       'I want to hear something funny',
@@ -78,6 +79,16 @@ export const data: TrainingData = {
         return devpun.random();
       }
     ],
-    description: 'I can tell you a joke - type: "Tell me a joke"'
+  },
+  'reminder': {
+    description: 'I can remind you to do stuff - type: "Remind me to..."',
+    documents: [
+      'set a reminder',
+      'remind me to',
+      'set an alert',
+    ],
+    answers: [
+      (data) => `Set a reminder for ${data?.reminder}`
+    ]
   }
 }

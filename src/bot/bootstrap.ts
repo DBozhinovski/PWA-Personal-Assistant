@@ -2,6 +2,9 @@ import { containerBootstrap } from '@nlpjs/core';
 import { Nlp } from '@nlpjs/nlp';
 import { data } from './data';
 import compromise from 'compromise';
+import datePlugin from 'compromise-dates';
+
+compromise.plugin(datePlugin);
 
 type intentKey = keyof typeof data;
 

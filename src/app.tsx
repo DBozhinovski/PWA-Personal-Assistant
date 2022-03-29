@@ -26,7 +26,7 @@ interface ReducerState {
 };
 
 // Our (currently) only reducer action and its payload
-interface ReducerAction {
+export interface ReducerAction {
 	type: 'addMessage';
 	payload: { message: Message }
 };
@@ -66,7 +66,7 @@ export function App() {
       <ChatInput onChange={(val) => { setMessage(val) }} onSubmit={() => { 
 				dispatch({ type: 'addMessage', payload: { message: { message, owner: 'me'} } }); // Add message to state
 				setTimeout(async () => {
-					const reply = await getReply(message);
+					const reply = await getReply(message, dispatch);
 					dispatch({ type: 'addMessage', payload: { message: { message: reply, owner: 'bot'} } });
 				}, 1000);
 				setMessage(''); // Reset message, so we can input a new one

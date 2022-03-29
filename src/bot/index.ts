@@ -1,3 +1,4 @@
+import { ReducerAction } from "../app";
 import { initBot } from "./bootstrap"; 
 import { skills } from './skills';
 
@@ -45,7 +46,7 @@ export const greet = async () => {
   return res.answer;
 }
 
-export const getReply = async (message: string) => {
+export const getReply = async (message: string, dispatch: (action: ReducerAction) => void) => {
   // return message;
   const res = await bot.nlp.process('en', message);
   const analysis = bot.compromise(message);
@@ -53,7 +54,7 @@ export const getReply = async (message: string) => {
   console.log(res.intent);
 
   // Run each skill over input
-  skills.forEach(s => s(res, analysis, data));
+  skills.forEach(s => s(res, analysis, data, dispatch));
 
   // Store data for next boot
   localStorage.setItem('userData', JSON.stringify(data));

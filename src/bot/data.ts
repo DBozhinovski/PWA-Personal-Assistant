@@ -88,7 +88,7 @@ export const data: TrainingData = {
       'set an alert',
     ],
     answers: [
-      (data) => `Set a reminder for ${data?.reminder}`
+      'Reminder set.'
     ]
   }
 }

@@ -25,11 +25,6 @@ let data: { [key: string]: any } = {};
 })()
 
 export const greet = async () => {
-  // if (data.name) {
-  //   return `Hi ${data.name}! How can I help you today?`;
-  // } else {
-  //   return `Hello. I'm not sure we've met before. How should I call you?`;
-  // }
   let res = null;
 
   if (data.name) {
@@ -47,11 +42,8 @@ export const greet = async () => {
 }
 
 export const getReply = async (message: string, dispatch: (action: ReducerAction) => void) => {
-  // return message;
   const res = await bot.nlp.process('en', message);
   const analysis = bot.compromise(message);
-
-  console.log(res.intent);
 
   // Run each skill over input
   skills.forEach(s => s(res, analysis, data, dispatch));

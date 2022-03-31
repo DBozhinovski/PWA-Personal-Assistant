@@ -34,7 +34,7 @@ export const data: TrainingData = {
     ]
   },
   'answers.name': {
-    description: 'I can learn you name - type "My name is..."',
+    description: 'I can learn your name - type "My name is..."',
     documents: [
       'My name is #Name',
       'You can call me #Name',

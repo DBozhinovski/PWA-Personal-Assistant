@@ -18,3 +18,7 @@ The repo contains a PWA for an offline-capable chabot, that would very much like
 Just upload the dist directory after building on any static file server. Make sure to have a working SSL cert. configured, for the application to be
 considered a PWA.
 
+## Links
+
+- [part 1 source](https://github.com/DBozhinovski/PWA-Personal-Assistant/tree/p-1) 
+- [part 2 source](https://github.com/DBozhinovski/PWA-Personal-Assistant/tree/p-2)

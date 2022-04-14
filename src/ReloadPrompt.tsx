@@ -1,6 +1,6 @@
-import "./ReloadPrompt.css";
+import './ReloadPrompt.css';
 
-import { useRegisterSW } from "virtual:pwa-register/preact";
+import { useRegisterSW } from 'virtual:pwa-register/preact';
 
 function ReloadPrompt() {
   const {
@@ -10,10 +10,10 @@ function ReloadPrompt() {
   } = useRegisterSW({
     onRegistered(r) {
       // eslint-disable-next-line prefer-template
-      console.log("SW Registered: " + r);
+      console.log('SW Registered: ' + r);
     },
     onRegisterError(error) {
-      console.log("SW registration error", error);
+      console.log('SW registration error', error);
     },
   });
 
@@ -30,16 +30,11 @@ function ReloadPrompt() {
             {offlineReady ? (
               <span>App ready to work offline</span>
             ) : (
-              <span>
-                New content available, click on reload button to update.
-              </span>
+              <span>New content available, click on reload button to update.</span>
             )}
           </div>
           {needRefresh && (
-            <button
-              className="ReloadPrompt-toast-button"
-              onClick={() => updateServiceWorker(true)}
-            >
+            <button className="ReloadPrompt-toast-button" onClick={() => updateServiceWorker(true)}>
               Reload
             </button>
           )}

@@ -1,16 +1,14 @@
-import { useState, useReducer, useEffect, StateUpdater } from "preact/hooks";
-import { Vocal } from "@untemps/vocal";
+import { useState, useReducer, useEffect, StateUpdater } from 'preact/hooks';
+import { Vocal } from '@untemps/vocal';
 
-import ReloadPrompt from "./ReloadPrompt";
-import { ChatHistory } from "./ChatHistory";
-import { ChatInput } from "./ChatInput";
+import ReloadPrompt from './ReloadPrompt';
+import { ChatHistory } from './ChatHistory';
+import { ChatInput } from './ChatInput';
 
-import { getReply, greet } from "./bot";
+import { getReply, greet } from './bot';
 
 // Read messages from storage if any
-const messagesFromStorage = JSON.parse(
-  localStorage.getItem("messageHistory") || "[]"
-);
+const messagesFromStorage = JSON.parse(localStorage.getItem('messageHistory') || '[]');
 
 const initialState = {
   // messages: [],
@@ -18,50 +16,43 @@ const initialState = {
 };
 
 const vocal = new Vocal({
-  lang: "en-US",
+  lang: 'en-US',
   continuous: true,
 });
 
-vocal.addEventListener("speechstart", (event: any) =>
-  console.log("Vocal starts recording")
-);
-vocal.addEventListener("speechend", (event: any) =>
-  console.log("Vocal stops recording")
-);
-vocal.addEventListener("error", (error: any) => console.error(error));
+vocal.addEventListener('speechstart', (event: any) => console.log('Vocal starts recording'));
+vocal.addEventListener('speechend', (event: any) => console.log('Vocal stops recording'));
+vocal.addEventListener('error', (error: any) => console.error(error));
 
-const addSpeechListener = (
-  setMessage: StateUpdater<string>,
-  dispatch: (action: ReducerAction) => void
-) => {
-  vocal.addEventListener("result", (event: any, result: string) => {
+const addSpeechListener = (setMessage: StateUpdater<string>, dispatch: (action: ReducerAction) => void) => {
+  vocal.addEventListener('result', (event: any, result: string) => {
     setMessage(result);
     vocal.stop();
     dispatch({
-      type: "addMessage",
-      payload: { message: { message: result, owner: "me" } },
+      type: 'addMessage',
+      payload: { message: { message: result, owner: 'me' } },
     }); // Add message to state
     setTimeout(async () => {
       const reply = await getReply(result, dispatch);
       dispatch({
-        type: "addMessage",
-        payload: { message: { message: reply, owner: "bot" } },
+        type: 'addMessage',
+        payload: { message: { message: reply, owner: 'bot' } },
       });
     }, 1000);
-    setMessage(""); // Reset message, so we can input a new one
+    setMessage(''); // Reset message, so we can input a new one
   });
 };
 
 if (!Vocal.isSupported) {
-  console.error("Vocal is not supported");
+  console.error('Vocal is not supported');
 } else {
-  console.log("Vocal supported");
+  console.log('Vocal supported');
 }
 
 // Message contents and owner, so we can differentiate those messages and style them accordingly
 interface Message {
   message: string;
-  owner: "me" | "bot";
+  owner: 'me' | 'bot';
 }
 
 // Our message history
@@ -71,18 +62,15 @@ interface ReducerState {
 
 // Our (currently) only reducer action and its payload
 export interface ReducerAction {
-  type: "addMessage";
+  type: 'addMessage';
   payload: { message: Message };
 }
 
 // The reducer which will handle message changes
 const reducer = (state: ReducerState, action: ReducerAction) => {
   switch (action.type) {
-    case "addMessage": {
-      localStorage.setItem(
-        "messageHistory",
-        JSON.stringify([...state.messages, action.payload.message])
-      );
+    case 'addMessage': {
+      localStorage.setItem('messageHistory', JSON.stringify([...state.messages, action.payload.message]));
       return { messages: [...state.messages, action.payload.message] };
     }
     default: {
@@ -93,7 +81,7 @@ const reducer = (state: ReducerState, action: ReducerAction) => {
 };
 
 export function App() {
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState<string>('');
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -102,8 +90,8 @@ export function App() {
     (async () => {
       const reply = await greet();
       dispatch({
-        type: "addMessage",
-        payload: { message: { message: reply, owner: "bot" } },
+        type: 'addMessage',
+        payload: { message: { message: reply, owner: 'bot' } },
       });
     })();
   }, []);
@@ -120,17 +108,17 @@ export function App() {
         }}
         onSubmit={() => {
           dispatch({
-            type: "addMessage",
-            payload: { message: { message, owner: "me" } },
+            type: 'addMessage',
+            payload: { message: { message, owner: 'me' } },
           }); // Add message to state
           setTimeout(async () => {
             const reply = await getReply(message, dispatch);
             dispatch({
-              type: "addMessage",
-              payload: { message: { message: reply, owner: "bot" } },
+              type: 'addMessage',
+              payload: { message: { message: reply, owner: 'bot' } },
             });
           }, 1000);
-          setMessage(""); // Reset message, so we can input a new one
+          setMessage(''); // Reset message, so we can input a new one
         }}
         onSpeech={() => {
           vocal.start();

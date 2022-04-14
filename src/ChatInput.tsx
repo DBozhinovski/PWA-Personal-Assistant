@@ -14,11 +14,7 @@ export const ChatInput = (props: CIProps) => {
           props.onSubmit();
         }}
       >
-        <input
-          type="text"
-          value={props.message}
-          onInput={(e) => props.onChange(e.currentTarget.value)}
-        />
+        <input type="text" value={props.message} onInput={(e) => props.onChange(e.currentTarget.value)} />
         <button>▶️</button>
         <button type="button" onClick={() => props.onSpeech()}>
           🎤

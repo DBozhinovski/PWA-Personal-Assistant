@@ -1,5 +1,6 @@
 import { useState, useReducer, useEffect, StateUpdater } from 'preact/hooks';
 import { Vocal } from '@untemps/vocal';
+import EasySpeech from 'easy-speech';
 
 import ReloadPrompt from './ReloadPrompt';
 import { ChatHistory } from './ChatHistory';
@@ -49,6 +50,15 @@ if (!Vocal.isSupported) {
   console.log('Vocal supported');
 }
 
+const EESupport = EasySpeech.detect();
+console.log(EESupport);
+
+if (EESupport.speechSynthesis && EESupport.speechSynthesisUtterance) {
+  console.log('EasySpeech supported');
+} else {
+  console.error('EasySpeech unsupported');
+}
+
 // Message contents and owner, so we can differentiate those messages and style them accordingly
 interface Message {
   message: string;
@@ -88,10 +98,16 @@ export function App() {
     addSpeechListener(setMessage, dispatch);
 
     (async () => {
+      await EasySpeech.init({ maxTimeout: 5000, interval: 250 });
+
       const reply = await greet();
       dispatch({
         type: 'addMessage',
         payload: { message: { message: reply, owner: 'bot' } },
+      });
+      await EasySpeech.speak({
+        text: reply,
+        voice: EasySpeech.voices()[1],
       });
     })();
   }, []);
@@ -116,6 +132,11 @@ export function App() {
             dispatch({
               type: 'addMessage',
               payload: { message: { message: reply, owner: 'bot' } },
+            });
+
+            await EasySpeech.speak({
+              text: reply,
+              voice: EasySpeech.voices()[1],
             });
           }, 1000);
           setMessage(''); // Reset message, so we can input a new one

@@ -5,19 +5,25 @@ interface CIProps {
   onSpeech: () => void;
 }
 
-
-
 export const ChatInput = (props: CIProps) => {
   return (
     <div className="chat-input">
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        props.onSubmit();
-      }}>
-        <input type="text" value={props.message} onInput={(e) => props.onChange(e.currentTarget.value)} />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          props.onSubmit();
+        }}
+      >
+        <input
+          type="text"
+          value={props.message}
+          onInput={(e) => props.onChange(e.currentTarget.value)}
+        />
         <button>▶️</button>
-        <button type="button" onClick={() => props.onSpeech()}>🎤</button>
+        <button type="button" onClick={() => props.onSpeech()}>
+          🎤
+        </button>
       </form>
     </div>
   );
-}
+};

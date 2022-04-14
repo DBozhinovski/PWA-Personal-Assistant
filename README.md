@@ -1,6 +1,6 @@
 # A PWA Personal Assistant App
 
-This is the repo for a series of articles I wrote on [gun.io](https://www.gun.io/blog). 
+This is the repo for a series of articles I wrote on [gun.io](https://www.gun.io/blog).
 The repo contains a PWA for an offline-capable chabot, that would very much like to be a personal assistant when it grows up :)
 
 ## Getting started
@@ -20,6 +20,6 @@ considered a PWA.
 
 ## Links
 
-- [part 1 source](https://github.com/DBozhinovski/PWA-Personal-Assistant/tree/p-1) 
+- [part 1 source](https://github.com/DBozhinovski/PWA-Personal-Assistant/tree/p-1)
 - [part 2 source](https://github.com/DBozhinovski/PWA-Personal-Assistant/tree/p-2)
 - [part 3 source](https://github.com/DBozhinovski/PWA-Personal-Assistant/tree/p-3)

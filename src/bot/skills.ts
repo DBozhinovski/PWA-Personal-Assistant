@@ -20,7 +20,6 @@ const extractName = (nlp: any, analysis: Three, data: { [key: string]: any }, di
 const setReminder = (nlp: any, analysis: any, data: { [key: string]: any }, dispatch: (action: ReducerAction) => void) => {
   if (nlp.intent === 'reminder') {
     const target = analysis.dates().json();
-    console.log(target[0].dates.start);
     if (target[0].dates.start) {
       setDateout(() => {
         dispatch({ type: 'addMessage', payload: { message: { message: `⏰ Reminder: ${analysis.text()}`, owner: 'bot'} } });

@@ -10,6 +10,7 @@
   "dependencies": {
     "@nlpjs/core": "^4.22.7",
     "@nlpjs/nlp": "^4.23.2",
+    "@untemps/vocal": "^1.3.0",
     "compromise": "^14.0.0",
     "compromise-dates": "^3.0.0",
     "devpun": "^1.5.0",
